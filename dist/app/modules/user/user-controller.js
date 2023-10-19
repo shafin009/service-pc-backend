@@ -29,11 +29,8 @@ const getAllUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c;
     const { id } = req.params;
-    const requestId = (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id;
-    const requestRole = (_c = req === null || req === void 0 ? void 0 : req.user) === null || _c === void 0 ? void 0 : _c.role;
-    const result = yield user_service_1.UserService.getSingleUser(id, requestRole, requestId);
+    const result = yield user_service_1.UserService.getSingleUser(id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -42,10 +39,8 @@ const getSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
     const { id } = req.params;
-    const requestRole = (_d = req === null || req === void 0 ? void 0 : req.user) === null || _d === void 0 ? void 0 : _d.role;
-    const result = yield user_service_1.UserService.updateUser(id, req.body, requestRole);
+    const result = yield user_service_1.UserService.updateUser(id, req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -54,9 +49,9 @@ const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _e;
+    var _b;
     const { id } = req.params;
-    const requestRole = (_e = req.user) === null || _e === void 0 ? void 0 : _e.role;
+    const requestRole = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role;
     const result = yield user_service_1.UserService.deleteUser(id, requestRole);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
