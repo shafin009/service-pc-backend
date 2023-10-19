@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bookingRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const user_1 = require("../../../enums/user");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const booking_controller_1 = require("./booking-controller");
+const booking_validation_1 = require("./booking-validation");
+const router = express_1.default.Router();
+router.post('/create-booking', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(booking_validation_1.bookingValidation.createBookingValidation), booking_controller_1.bookingController.createBooking);
+router.get('/', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), booking_controller_1.bookingController.getAllBooking);
+router.get('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), booking_controller_1.bookingController.getSingleBooking);
+router.get('/singleUserAllBooking/:userId', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), booking_controller_1.bookingController.getSingleUserAllBooking);
+router.patch('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), (0, validateRequest_1.default)(booking_validation_1.bookingValidation.updateBookingValidation), booking_controller_1.bookingController.updateBooking);
+router.delete('/:id', (0, auth_1.default)(user_1.ENUM_USER_ROLE.USER, user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), booking_controller_1.bookingController.deleteBooking);
+exports.bookingRoutes = router;

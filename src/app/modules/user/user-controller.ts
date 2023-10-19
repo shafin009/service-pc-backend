@@ -19,9 +19,8 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const requestId = req?.user?.id;
-  const requestRole = req?.user?.role;
-  const result = await UserService.getSingleUser(id, requestRole, requestId);
+
+  const result = await UserService.getSingleUser(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -33,8 +32,8 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const requestRole = req?.user?.role;
-  const result = await UserService.updateUser(id, req.body, requestRole);
+
+  const result = await UserService.updateUser(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
