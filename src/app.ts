@@ -9,7 +9,7 @@ import router from './app/routes';
 const app: Application = express();
 
 const corsOptions = {
-  origin: 'http://localhost:4000',
+  origin: 'https://pc-service-front.netlify.app',
   credentials: true,
 };
 
