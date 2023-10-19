@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String
+  role       UserRole   @default(user)
+  phone  String  @unique
+  address    String
+  userName String
+  profileImage String?
+  booking     Booking[]
+  reviews    ReviewAndRating[]
+  feedbacks Feedback[]
+  cart       Cart[]
+
+   @@map("User")
+}
+
+enum UserRole {
+  admin
+  user
+  super_admin
+
+}
+
+model Category {
+  id    String   @id @default(uuid())
+  name String @unique
+  description String
+  service Service[]
+    @@map("Category")
+}
+
+model Service {
+  id             String       @id @default(uuid())
+  name           String
+  description     String
+  image           String
+  location        String
+  price           Float
+  availability     availabilityOption @default(yes)
+  createdAt       DateTime @default(now())
+  categoryId     String
+  category       Category     @relation(fields: [categoryId], references: [id])
+  reviews        ReviewAndRating[]
+  cart         Cart[]
+  bookings     Booking[]
+   @@map("Service")
+}
+enum availabilityOption {
+  yes
+none
+  
+}
+
+
+model ReviewAndRating {
+  id     String   @id @default(uuid())
+  review String
+  rating Int
+  userId String
+  serviceId String
+  user   User     @relation(fields: [userId], references: [id])
+  service   Service     @relation(fields: [serviceId], references: [id])
+   @@map("ReviewAndRating")
+}
+
+
+model Booking {
+  id           String     @id @default(uuid())
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  status       bookingStatus @default(pending)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  scheduleDate     DateTime
+  messageByAdmin   String?
+  adjustedSchedule DateTime?
+  address          String
+  serviceId String
+  service   Service     @relation(fields: [serviceId], references: [id])
+
+  @@map("Booking")
+}
+
+enum bookingStatus {
+  pending
+  accepted
+  cancelled
+}
+
+model Blog {
+  id    String     @id @default(uuid())
+  title String
+  body  String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Cart {
+  id          String    @id @default(uuid())
+  serviceId String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
+}
+
+model Feedback {
+  id          String     @id @default(uuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  comment String
+}
+
+model FAQ {
+  id          String     @id @default(uuid())
+  question String
+  answer   String
+}
